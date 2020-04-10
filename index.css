@@ -1,7 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;900&display=swap');
+
 body {
     margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    position: relative;
+}
+
+.chart {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .circ:hover {
-    fill: red;
+    stroke: #0b0c0c;
+    stroke-width: 5px;
+    cursor: pointer;
+}
+
+.tooltip {
+    pointer-events: none;
+}
+
+.tooltip#orgName {
+    font-weight: 900;
+}
+.tooltip#value {
+    font-weight: 900;
+    fill: #1d70b8;
+}
+
+.year {
+    font-size: 500%;
 }
