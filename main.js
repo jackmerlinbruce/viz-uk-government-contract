@@ -248,7 +248,4 @@ function render(data) {
             'text-anchor': 'middle'
         })
         .on('click', () => window.open('https://twitter.com/jackmerlinbruce'))
-        .on('mouseover', () =>
-            window.open('https://twitter.com/jackmerlinbruce')
-        )
 }
