@@ -147,6 +147,8 @@ function render(data) {
         .attrs(propsCircle)
         .on('mouseover', handleMousover)
         .on('mouseout', handleMouseout)
+        .on('touchstart', handleMousover)
+        .on('touchend', handleMouseout)
         .on('click', handleClick)
 
     circleText = svg
