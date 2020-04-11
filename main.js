@@ -87,7 +87,8 @@ function render(data) {
         'font-weight': 900,
         'text-anchor': 'middle',
         'alignment-baseline': 'middle',
-        'pointer-events': 'none'
+        'pointer-events': 'none',
+        'font-size': '70%'
     }
 
     propsLine = {
@@ -158,7 +159,7 @@ function render(data) {
         .append('text')
         .attrs(propsCircleText)
         .text(d => {
-            if (r(d['Awarded Value']) >= 40) {
+            if (r(d['Awarded Value']) >= 30) {
                 return formatValue(d['Awarded Value'])
             }
         })
