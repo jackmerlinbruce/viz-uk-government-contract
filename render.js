@@ -1,26 +1,6 @@
-// TODO:
-// - add mobile
-// - add continuous on-scroll counter
-
-String.prototype.capitalize = function() {
-    return this.replace(/(?:^|\s)\S/g, function(a) {
-        return a.toUpperCase()
-    })
-}
-
-const MAX_VALUE = 67000000000
-
-const dataChooser = document.getElementById('choose-data')
-const chart = document.querySelector('.chart')
-
-d3.csv(dataChooser.value, data => render(data))
-
-dataChooser.addEventListener('change', e => {
-    chart.innerHTML = ''
-    d3.csv(dataChooser.value, data => render(data))
-})
-
 function render(data) {
+    const MAX_VALUE = 67000000000 // this should be set dynamically
+
     data.map(d => {
         d['Awarded Value'] = +d['Awarded Value']
         d['Published Date'] = d3.isoParse(d['Published Date'])
@@ -237,17 +217,6 @@ function render(data) {
         .alpha(0.12)
         .on('tick', tick)
 
-    counter = svg
-        .append('text')
-        .text('1')
-        .attrs({
-            x: 40,
-            y: 40,
-            fill: 'blue',
-            position: 'sticky',
-            left: '40'
-        })
-
     end = svg
         .append('text')
         .text('Most people who scrolled this far followed me at')
@@ -256,6 +225,7 @@ function render(data) {
             y: h / 2,
             'text-anchor': 'middle'
         })
+
     end = svg
         .append('text')
         .text('@JackMerlinBruce')

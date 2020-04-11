@@ -1,0 +1,131 @@
+.container {
+    position: relative;
+}
+
+.logo {
+    z-index: 1001;
+    position: absolute;
+    margin-top: 40px;
+    left: 40px;
+    width: 40px;
+    background-color: #626a6e;
+    border-radius: 50px;
+    transition: 100ms ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+    transition: 100ms ease-in-out;
+}
+
+.title {
+    z-index: 1001;
+    position: absolute;
+    margin-top: 40px;
+    left: 90px;
+    font-size: 16px;
+    text-align: left;
+    color: #626a6e;
+}
+
+.title span {
+    font-weight: 300;
+}
+
+.desc {
+    z-index: 1001;
+    position: absolute;
+    margin-top: 100px;
+    left: 40px;
+    width: 300px;
+    color: #b1b4b6;
+    font-size: 12px;
+}
+
+#choose-data {
+    z-index: 1000;
+    position: fixed;
+    margin-top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.027);
+    border: none;
+    border-bottom: 1px #0b0c0c solid;
+    color: #0b0c0c;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    text-align: center;
+}
+
+#choose-data:hover {
+    background: rgba(0, 0, 0, 0.057);
+    cursor: pointer;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+.chart {
+    z-index: 500;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.circ:hover {
+    /* fill: #ffdd00; */
+    stroke: #0b0c0c;
+    stroke-width: 5px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.tooltip {
+    pointer-events: none;
+}
+
+.tooltip#orgName {
+    font-weight: 900;
+}
+.tooltip#value {
+    font-weight: 900;
+    fill: #1d70b8;
+}
+
+.year {
+    font-size: 500%;
+}
+
+.end:hover {
+    cursor: pointer;
+    fill: #1d70b8;
+}
+
+.emailSignUp {
+    z-index: 1003;
+    position: absolute;
+    margin-top: 55vh;
+    left: calc(1150vw);
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.emailSignUp #userEmail {
+    padding: 10px;
+    min-width: 200px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    border: none;
+    border-radius: 20px;
+}
