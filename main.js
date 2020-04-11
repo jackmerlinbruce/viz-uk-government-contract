@@ -1,3 +1,7 @@
+// TODO:
+// - add mobile
+// - add continuous on-scroll counter
+
 String.prototype.capitalize = function() {
     return this.replace(/(?:^|\s)\S/g, function(a) {
         return a.toUpperCase()
@@ -232,6 +236,17 @@ function render(data) {
         .alphaDecay(0.01)
         .alpha(0.12)
         .on('tick', tick)
+
+    counter = svg
+        .append('text')
+        .text('1')
+        .attrs({
+            x: 40,
+            y: 40,
+            fill: 'blue',
+            position: 'sticky',
+            left: '40'
+        })
 
     end = svg
         .append('text')
