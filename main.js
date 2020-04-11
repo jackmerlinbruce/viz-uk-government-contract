@@ -4,7 +4,19 @@ String.prototype.capitalize = function() {
     })
 }
 
-d3.csv('./contracts-over-100m.csv', data => {
+const MAX_VALUE = 67000000000
+
+const dataChooser = document.getElementById('choose-data')
+const chart = document.querySelector('.chart')
+
+d3.csv(dataChooser.value, data => render(data))
+
+dataChooser.addEventListener('change', e => {
+    chart.innerHTML = ''
+    d3.csv(dataChooser.value, data => render(data))
+})
+
+function render(data) {
     data.map(d => {
         d['Awarded Value'] = +d['Awarded Value']
         d['Published Date'] = d3.isoParse(d['Published Date'])
@@ -16,7 +28,7 @@ d3.csv('./contracts-over-100m.csv', data => {
         return cond1 && cond2
     })
 
-    rExtent = d3.extent(data.map(d => d['Awarded Value']))
+    rExtent = [d3.min(data.map(d => d['Awarded Value'])), MAX_VALUE]
     xExtent = d3.extent(data.map(d => d['Published Date']))
 
     firstYear = new Date(xExtent[0].getFullYear(), 1, 1)
@@ -25,10 +37,10 @@ d3.csv('./contracts-over-100m.csv', data => {
     nYearsInData = new Date(xExtent[1] - xExtent[0]).getFullYear() - 1970
 
     // each window.innerWidth = one year of data
-    const [w, h] = [window.innerWidth * nYearsInData, window.innerHeight]
+    const [w, h] = [window.innerWidth * 2 * nYearsInData, window.innerHeight]
     years = Array.from({ length: nYearsInData }, () => 0).map((d, i) => {
         return {
-            pos: i * window.innerWidth,
+            pos: i * window.innerWidth * 2,
             year: new Date(firstYear.getFullYear() + i, 1, 1)
         }
     })
@@ -41,7 +53,7 @@ d3.csv('./contracts-over-100m.csv', data => {
     r = d3
         .scaleSqrt()
         .domain(rExtent)
-        .range([1, h / 5])
+        .range([1, h / 2])
 
     x = d3
         .scaleLinear()
@@ -51,7 +63,7 @@ d3.csv('./contracts-over-100m.csv', data => {
     o = d3
         .scaleLinear()
         .domain(rExtent)
-        .range([0.2, 1])
+        .range([0.8, 0.8])
 
     c = d3
         .scaleLinear()
@@ -92,7 +104,7 @@ d3.csv('./contracts-over-100m.csv', data => {
         class: 'rect',
         x: d => d.pos,
         y: 0,
-        width: window.innerWidth,
+        width: window.innerWidth * 2,
         height: h,
         fill: d => c(d.year)
     }
@@ -124,7 +136,7 @@ d3.csv('./contracts-over-100m.csv', data => {
         .data(years)
         .enter()
         .append('text')
-        .text(d => d.year.getFullYear())
+        .text(d => d.year.getFullYear() + ' →')
         .attrs(propsYears)
 
     circles = svg
@@ -135,6 +147,7 @@ d3.csv('./contracts-over-100m.csv', data => {
         .attrs(propsCircle)
         .on('mouseover', handleMousover)
         .on('mouseout', handleMouseout)
+        .on('click', handleClick)
 
     circleText = svg
         .selectAll('.circText')
@@ -143,7 +156,7 @@ d3.csv('./contracts-over-100m.csv', data => {
         .append('text')
         .attrs(propsCircleText)
         .text(d => {
-            if (d['Awarded Value'] >= 5000000000) {
+            if (r(d['Awarded Value']) >= 40) {
                 return formatValue(d['Awarded Value'])
             }
         })
@@ -153,29 +166,45 @@ d3.csv('./contracts-over-100m.csv', data => {
     }
 
     function handleMousover(d, i) {
-        name = d['Organisation Name'].toLowerCase().capitalize()
+        name = d['Organisation Name']
+            .toLowerCase()
+            .capitalize()
+            .replace(/ *\([^)]*\) */g, '')
         value = formatValue(d['Awarded Value'])
         date = d3.timeFormat('%d %B %Y')(d['Published Date'])
-        url = d['Links']
+        desc = d['Title'].replace(/ *\([^)]*\) */g, '')
 
-        texts = [name, value, date]
+        texts = [value, name, desc, date]
 
         texts.map((text, i) => {
             svg.append('text')
                 .attrs({
                     class: 'tooltip',
-                    id: i === 0 ? 'orgName' : i === 1 ? 'value' : '',
+                    id: i === 0 ? 'value' : i === 1 ? 'orgName' : '',
                     x: this.getAttribute('cx'),
-                    y: h / 6 + i * 20,
+                    y: h - h / 5 + i * 20,
                     'text-anchor': 'middle',
-                    fill: '#626a6e'
+                    fill: '#0b0c0c'
                 })
                 .text(text)
+            // svg.append('line').attrs({
+            //     class: 'tooltip',
+            //     x1: this.getAttribute('cx'),
+            //     x2: this.getAttribute('cx'),
+            //     y1: +this.getAttribute('cy') + 5,
+            //     y2: h - h / 5 - texts.length - 1 * 20,
+            //     stroke: '#1d70b8',
+            //     'stroke-width': 2
+            // })
         })
     }
 
     function handleMouseout(d, i) {
         d3.selectAll('.tooltip').remove()
+    }
+
+    function handleClick(d, i) {
+        // if (d['Links']) window.open(d['Links'])
     }
 
     function tick() {
@@ -200,4 +229,26 @@ d3.csv('./contracts-over-100m.csv', data => {
         .alphaDecay(0.01)
         .alpha(0.12)
         .on('tick', tick)
-})
+
+    end = svg
+        .append('text')
+        .text('Most people who scrolled this far followed me at')
+        .attrs({
+            x: w - window.innerWidth / 2,
+            y: h / 2,
+            'text-anchor': 'middle'
+        })
+    end = svg
+        .append('text')
+        .text('@JackMerlinBruce')
+        .attrs({
+            class: 'end',
+            x: w - window.innerWidth / 2,
+            y: h / 2 + 25,
+            'text-anchor': 'middle'
+        })
+        .on('click', () => window.open('https://twitter.com/jackmerlinbruce'))
+        .on('mouseover', () =>
+            window.open('https://twitter.com/jackmerlinbruce')
+        )
+}

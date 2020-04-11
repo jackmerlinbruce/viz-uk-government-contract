@@ -9,8 +9,29 @@
     </head>
     <body>
         <div class="container">
-            <div class="tooltip__root"></div>
-            <div class="filter__root"></div>
+            <a href="https://artycharty.com" target="_blank"><img class="logo" src="./dataart-logo.svg" alt="" srcset=""></a>
+            <h1 class="title">
+                A Timeline of UK Government Contracts 
+                </br>
+                <span> by <a href="https://twitter.com/jackmerlinbruce" target="_blank">@JackMerlinBruce</a></span>
+            </h1>
+            <div class="desc">
+                Do you know where your money goes? </br>
+                Each circle below represents a single government contract, sized according to its final sale value. </br>
+                </br>Data source: <a href="https://gov.uk/contracts-finder" target="_blank">gov.uk/contracts-finder</a>
+            </div>
+
+            <select class="selectpicker" id="choose-data">
+                <option value="./data/cleaned-contracts-nhs-over-100m.csv">NHS Contracts</option>
+                <option value="./data/cleaned-contracts-oil-gas-coal.csv">Oil & Gas Contracts</option>
+                <option value="./data/cleaned-contracts-transport.csv">Transport Contracts</option>
+                <option value="./data/cleaned-contracts-military.csv">Military Contracts</option>
+                <option value="./data/cleaned-contracts-over-100m.csv">All Contracts Worth Over £100m</option>
+                <option value="./data/cleaned-contracts-over-1b.csv">All Contracts Worth Over £1bn</option>
+            </select>
+
+            <div class="end">Look at all this space!</div>
+
             <div class="chart"></div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
